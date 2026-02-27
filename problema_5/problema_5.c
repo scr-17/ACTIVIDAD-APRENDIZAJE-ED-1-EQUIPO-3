@@ -12,18 +12,18 @@ EJEMPLOS ENTRADAS VALIDAS:
 	y(f(z(rp (an(je(el m) y)or )m)o)a)e
 */
 
-struct NODO {
+struct nodo {
 	char valor;
-	struct NODO *siguiente;
+	struct nodo *siguiente;
 };
 
-typedef struct NODO NODO ;
-typedef NODO *nodosig;
+typedef struct nodo nodo ;
+typedef nodo *nodoSig;
 
 int desifrarMensaje(char cadena[]);
 
-char insertar(nodosig *pila, char valor){
-	nodosig nuevo = malloc(sizeof(NODO));
+char insertar(nodoSig *pila, char valor){
+	nodoSig nuevo = malloc(sizeof(nodo));
 	nuevo->valor = valor;
 	nuevo->siguiente = NULL;
 	if (*pila != NULL){
@@ -35,9 +35,9 @@ char insertar(nodosig *pila, char valor){
 	}
 }
 
-char sacar(nodosig *pila){
+char sacar(nodoSig *pila){
 	if(*pila != NULL){
-		nodosig temp;
+		nodoSig temp;
 		temp = *pila;
 		*pila = (*pila)->siguiente;
 		free(temp);
@@ -64,7 +64,7 @@ int main(){
 }
 
 int desifrarMensaje(char cadena[]){
-	nodosig pila = NULL;
+	nodoSig pila = NULL;
 	char mensaje[255], auxMsj[255];
 	int i = 0;
 	while(cadena[i] != '\0'){
