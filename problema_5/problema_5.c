@@ -3,6 +3,15 @@
 #include<ctype.h>
 #include<stdlib.h>
 
+/*
+EJEMPLOS ENTRADAS VALIDAS:
+	Olimpia(am(nfor)I ed (da))tica
+	pro(gar)macion
+	la (mi se (p(ali)s) sal ed acigol)portante  
+	ethan es un (o(a(ai(eyt)red)n)c) ejemplar
+	y(f(z(rp (an(je(el m) y)or )m)o)a)e
+*/
+
 struct NODO {
 	char valor;
 	struct NODO *siguiente;
@@ -38,14 +47,20 @@ char sacar(nodosig *pila){
 
 int main(){
 	char cadena[255];
-	printf("INGRESE UN MENSAJE CIFRADO: ");
-	fgets(cadena, sizeof(cadena), stdin);
-    cadena[strcspn(cadena, "\n")] = '\0';
-    if(validarCadena(cadena)){
-    	desifrarMensaje(cadena);
+	int opc = 1;
+	while(opc == 1){
+		system("cls");
+		printf("INGRESE UN MENSAJE CIFRADO: ");
+		fgets(cadena, sizeof(cadena), stdin);
+	    cadena[strcspn(cadena, "\n")] = '\0';
+	    if(validarCadena(cadena)){
+	    	desifrarMensaje(cadena);
+		}
+		else printf("\nla cadena ingresada no es valida\n\n");
+		printf("\ndesea ingresar un nuevo  mensaje cifrado\n1- si\n2- no\n-> ");
+		opc = leer_opcion();
+		system("pause");
 	}
-	else printf("\nla cadena ingresada no es valida\n\n");
-	system("pause");
 }
 
 int desifrarMensaje(char cadena[]){
@@ -108,5 +123,26 @@ int validarCadena(char cadena[]){
 	
 	if(balance == 0) return 1;
 	else return 0;
+}
+
+int leer_opcion()
+{
+	int valor;
+	int valido = 0;
+
+	do
+	{
+		if (scanf("%d", &valor) == 1 && (valor == 2 || valor == 1))
+			valido = 1;
+		else
+		{
+			printf("\nIngrese una opcion valida\n-> ");
+			valido = 0;
+		}
+		while (getchar() != '\n')
+			;
+	} while (!valido);
+
+	return valor;
 }
 
