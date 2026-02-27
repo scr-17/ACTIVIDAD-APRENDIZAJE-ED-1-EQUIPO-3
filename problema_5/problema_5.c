@@ -38,10 +38,13 @@ char sacar(nodosig *pila){
 
 int main(){
 	char cadena[255];
-	printf("INGRESA UN MENSAJE CIFRADO: ");
+	printf("INGRESE UN MENSAJE CIFRADO: ");
 	fgets(cadena, sizeof(cadena), stdin);
     cadena[strcspn(cadena, "\n")] = '\0';
-	desifrarMensaje(cadena);
+    if(validarCadena(cadena)){
+    	desifrarMensaje(cadena);
+	}
+	else printf("\nla cadena ingresada no es valida\n\n");
 	system("pause");
 }
 
@@ -85,6 +88,25 @@ int desifrarMensaje(char cadena[]){
 		mensaje[len - i -1] = aux;
 	}
 	mensaje[len] = '\0';
-	printf("\n%s\n",mensaje);
+	printf("\n\nEL MENSADE DECIFRADO DICE: %s\n\n",mensaje);
+}
+
+int validarCadena(char cadena[]){
+	int i = 0, balance = 0;
+	if(cadena[0] == '\0') return 0;
+	while(cadena[i] != '\0'){
+		if(cadena[i] == '('){
+			balance++;
+			if(cadena[i + 1] == ')') return 0;
+		}
+		if(cadena[i] == ')'){
+			balance--;
+			if(balance < 0) return 0;
+		}
+		i++;
+	}
+	
+	if(balance == 0) return 1;
+	else return 0;
 }
 
