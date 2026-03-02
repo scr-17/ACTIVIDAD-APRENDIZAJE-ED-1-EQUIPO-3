@@ -78,13 +78,13 @@ char *obtener_nombre()
     {
         valida = 1;
         fflush(stdin);
-        printf("Ingrese una palabra: ");
+        printf("Ingrese un nombre: ");
         fflush(stdin);
 
         // Obtener TODO lo que haya en stdin
         fgets(temp, sizeof(temp), stdin);
 
-        // Reemplazar '/n' por un '\0'
+        // Reemplazar '\n' por un '\0'
         temp[strcspn(temp, "\n")] = '\0';
 
         // Revisar espacios
@@ -92,6 +92,8 @@ char *obtener_nombre()
         if (espacio != NULL)
         {
             printf("ERROR. Se ingreso mas de un nombre. Oprima cualquier tecla");
+            getchar();
+            fflush(stdin);
             valida = 0;
         }
 
@@ -99,6 +101,8 @@ char *obtener_nombre()
         if (strlen(temp) == 0)
         {
             printf("ERROR. No se ingreso ningun nombre. Oprima cualquier tecla");
+            getchar();
+            fflush(stdin);
             valida = 0;
         }
 
@@ -111,6 +115,8 @@ char *obtener_nombre()
             {
                 valida = 0;
                 printf("ERROR. El nombre no contiene solo letras. Oprima cualquier tecla");
+                getchar();
+                fflush(stdin);
                 break;
             }
         }
@@ -194,6 +200,8 @@ void lista_agregar_final(NODO **cabecera)
             nuevo->nombre = obtener_nombre();
             nuevo->siguiente = NULL;
             *cabecera = nuevo;
+            printf("Se agrego correctamente el contacto %s\n", nuevo->nombre);
+            system("pause");
             return;
         }
         // Tiene uno o mas nodos
@@ -202,6 +210,8 @@ void lista_agregar_final(NODO **cabecera)
             nuevo->nombre = obtener_nombre();
             nuevo->siguiente = NULL;
             previo->siguiente = nuevo;
+            printf("Se agrego correctamente el contacto %s\n", nuevo->nombre);
+            system("pause");
             return;
         }
     }
@@ -226,10 +236,9 @@ void lista_eliminar(NODO **cabecera)
     else
     {
         nombre_a_buscar = obtener_nombre();
-        previo = actual;
-        actual = actual->siguiente;
+
         // Recorrer hasta que se acabe la lista o que encuentre le nombre
-        while (actual != NULL || actual->nombre != nombre_a_buscar)
+        while (actual != NULL && strcmp(actual->nombre, nombre_a_buscar) != 0)
         {
             previo = actual;
             actual = actual->siguiente;
@@ -239,37 +248,45 @@ void lista_eliminar(NODO **cabecera)
         if (actual == NULL)
         {
             printf("No se encontro el contacto\n");
+            system("pause");
             return;
         }
 
         // Caso de que el nodo a eliminar sea el unico nodo
-        else if (actual->siguiente == NULL && previo == NULL && actual->nombre == nombre_a_buscar)
+        else if (actual->siguiente == NULL && previo == NULL)
         {
             free(actual);
             *cabecera = NULL;
             printf("Se elimino el contacto %s\nY se vacio la lista\n", nombre_a_buscar);
+            system("pause");
             return;
         }
         // Caso de que el nodo a eliminar sea el primero
-        else if (actual->nombre == nombre_a_buscar && previo == NULL)
+        else if (previo == NULL)
         {
             *cabecera = actual->siguiente;
             free(actual);
             printf("Se elimino el contacto %s\n", nombre_a_buscar);
+            system("pause");
+            return;
         }
         // Caso de que el nodo a eliminar sea el ultimo de la lista
-        else if (actual->siguiente == NULL && actual->nombre == nombre_a_buscar)
+        else if (actual->siguiente == NULL)
         {
             previo->siguiente = NULL;
             free(actual);
             printf("Se elimino el contacto %s\n", nombre_a_buscar);
+            system("pause");
+            return;
         }
         // Caso de que el nodo a eliminar este en medio de la lista
-        else if (actual->nombre == nombre_a_buscar)
+        else
         {
             previo->siguiente = actual->siguiente;
             free(actual);
             printf("Se elimino el contacto %s\n", nombre_a_buscar);
+            system("pause");
+            return;
         }
     }
 }
@@ -277,16 +294,17 @@ void lista_eliminar(NODO **cabecera)
 // Funcion para imprimir toda la lista
 void lista_imprimir(NODO *cabecera)
 {
-    if (cabecera = NULL)
+    NODO *actual = cabecera;
+    if (actual == NULL)
     {
         printf("La lista esta vacia.\n");
     }
     else
     {
-        while (cabecera != NULL)
+        while (actual != NULL)
         {
-            printf(" %s ->", cabecera->nombre);
-            cabecera = cabecera->siguiente;
+            printf(" %s ->", actual->nombre);
+            actual = actual->siguiente;
         }
         printf(" NULL\n");
     }
@@ -321,4 +339,5 @@ void limpiar_lista(NODO **cabecera)
 
 void antivirus(int dias)
 {
+    int n=1;
 }
