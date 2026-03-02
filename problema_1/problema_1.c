@@ -11,22 +11,22 @@ typedef struct nodo
 } NODO;
 
 /*Funcion para solicitar y validar la entrada de enteros*/
-int solicitar_entero();
+int solicitarEntero();
 
 /*Funcion para imprimir una lista enlazada*/
-void mostrar_lista(NODO *);
+void mostrarLista(NODO *);
 
 /*Funcion para ingresar un elemento a la lista enlazada,
     estos se insertan por el final y son aleatorios*/
-void insertar_aleatorio(NODO **);
+void insertarAleatorio(NODO **);
 
 /*Funcion para eliminar todos los elementos superiores
     a un valor ingresado por el usuario*/
-void eliminar_superiores(NODO **);
+void eliminarSuperiores(NODO **);
 
 /*Funcion para vaciar la lista al finalizar el programa,
     evitando fugas de memoria*/
-void vaciar_lista(NODO **);
+void vaciarLista(NODO **);
 
 int main()
 {
@@ -42,17 +42,17 @@ int main()
         printf("Ingrese una opcion del menu\n\n1) Ingresar un numero aleatorio\n");
         printf("2) Eliminar elementos mayores a un numero dado\n");
         printf("3) Imprimir la lista\n4) Salir del programa\n\n>");
-        op = solicitar_entero();
+        op = solicitarEntero();
         switch (op)
         {
         case 1:
-            insertar_aleatorio(&lista);
+            insertarAleatorio(&lista);
             break;
         case 2:
-            eliminar_superiores(&lista);
+            eliminarSuperiores(&lista);
             break;
         case 3:
-            mostrar_lista(lista);
+            mostrarLista(lista);
             break;
         case 4:
             printf("\nFinalizando programa...\n\n");
@@ -64,7 +64,7 @@ int main()
         system("cls");
     } while (op != 4);
 
-    vaciar_lista(&lista);
+    vaciarLista(&lista);
 
     return 0;
 }
@@ -72,7 +72,7 @@ int main()
 /*En esta funcion, solicitamos que el usuario ingrese un numero entero.
     Si no se puede leer de forma correcta, se repite el flujo hasta que
     el usuario ingrese uno correcto*/
-int solicitar_entero()
+int solicitarEntero()
 {
     char Aux[' '];
     int i, p, y, num;
@@ -106,7 +106,7 @@ int solicitar_entero()
 
 /*Recorremos la lista con un ciclo hasta encontrar el nodo final,
     mientras se imprime cada nodo que vayamos encontrando*/
-void mostrar_lista(NODO *lista)
+void mostrarLista(NODO *lista)
 {
     if (lista == NULL)
     {
@@ -127,7 +127,7 @@ void mostrar_lista(NODO *lista)
 
 /*Insertamos por el final un nodo en la lista enlazada, aqui
     tambien le asignamos el numero aleatorio a este*/
-void insertar_aleatorio(NODO **lista)
+void insertarAleatorio(NODO **lista)
 {
     int valor;
 
@@ -160,11 +160,11 @@ void insertar_aleatorio(NODO **lista)
         }
 
         printf("\nLista actualizada:\n");
-        mostrar_lista(*lista);
+        mostrarLista(*lista);
     }
 }
 
-void eliminar_superiores(NODO **lista)
+void eliminarSuperiores(NODO **lista)
 {
     int limite, bandera = 0;
     NODO *temporal = NULL, *previo = NULL, *actual = NULL, *posterior = NULL;
@@ -178,7 +178,7 @@ void eliminar_superiores(NODO **lista)
 
     /*Solicitamos un limite para borrar los nodos con menor valor*/
     printf("Ingrese un numero: ");
-    limite = solicitar_entero();
+    limite = solicitarEntero();
 
     /*Por medio de tres punteros de trabajo, recorremos la lista*/
     previo = NULL;                   /*El puntero del nodo directamente atras del que borraremos*/
@@ -226,7 +226,7 @@ void eliminar_superiores(NODO **lista)
     if (bandera)
     {
         printf("\nNumeros eliminados con exito, lista actualizada:\n");
-        mostrar_lista(*lista);
+        mostrarLista(*lista);
     }
     /*Caso contrario*/
     else
@@ -236,7 +236,7 @@ void eliminar_superiores(NODO **lista)
 }
 
 /*Utilizamos esta funcion para vaciar la lista evitando fugas de memoria*/
-void vaciar_lista(NODO **lista)
+void vaciarLista(NODO **lista)
 {
     /*Si la lista esta vacia, no hacemos nada*/
     if (*lista == NULL)
