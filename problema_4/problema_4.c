@@ -17,11 +17,11 @@ void lista_eliminar(NODO **);
 void lista_imprimir(NODO *);
 void limpiar_lista(NODO **);
 
-void antivirus(int dias);
+void antivirus(NODO *);
 
 int main()
 {
-    int opcion, dias;
+    int opcion, dia;
     NODO *cabecera = NULL;
 
     do
@@ -32,7 +32,8 @@ int main()
                "2.Eliminar contacto\n"
                "3.Imprimir lista de contactos\n"
                "4.Correr antivirus\n"
-               "5.Salir\n\n");
+               "5.Salir\n\n"
+               "Introduzca una opcion: ");
         opcion = obtener_opcion();
 
         switch (opcion)
@@ -47,9 +48,7 @@ int main()
             lista_imprimir(cabecera);
             break;
         case 4:
-            printf("\nIngrese el dia en que ocurrio el virus: ");
-            dias = obtener_opcion();
-            antivirus(dias);
+            antivirus(cabecera);
             break;
         case 5:
             system("cls");
@@ -142,7 +141,6 @@ int obtener_opcion()
     do
     {
         fflush(stdin);
-        printf("\nIntroduzca una opcion: ");
         // scanf(" %s", Aux); // se lee los datos introducidos
         fgets(Aux, sizeof(Aux), stdin);
         Aux[strcspn(Aux, "\n")] = '\0';
@@ -158,7 +156,7 @@ int obtener_opcion()
 
             if (p == 0)
             {
-                printf("\nERROR. El dato no es un numero entero positivo.\n");
+                printf("ERROR. El dato no es un numero entero positivo.\nIngrese uno nuevo: ");
                 break;
             }
         }
@@ -330,6 +328,7 @@ void limpiar_lista(NODO **cabecera)
         {
             previo = actual;
             actual = actual->siguiente;
+            free(previo->nombre);
             free(previo);
         }
         *cabecera = NULL;
@@ -337,7 +336,48 @@ void limpiar_lista(NODO **cabecera)
     }
 }
 
-void antivirus(int dias)
+// Funcion principal para arreglar los nodos afectados
+void antivirus(NODO *cabecera)
 {
-    int n=1;
+    if (cabecera == NULL)
+        printf("Error. La lista esta vacia\n");
+    else
+    {
+        int dia = 1, n_nodo = 1;
+
+        // Solicitar numero de dias
+        do
+        {
+            if (dia < 1 || dia > 30)
+                printf("Error. Dia no valido");
+
+            printf("\nIngrese el dia en que ocurrio el virus: ");
+            dia = obtener_opcion();
+        } while (dia > 30 || dia < 1);
+
+        // Recorrer y voltear en caso de que n_nodo sea multiplo del dia en que ocurrio el virus
+        while (cabecera != NULL)
+        {
+            // revisar como funciona el modulo con enteros
+            if (n_nodo % dia == 0)
+            {
+                // Logica para invertir cadenas
+                char *nombre_nuevo = malloc(strlen(cabecera->nombre) + 1);
+                int i = 0, j = strlen(cabecera->nombre);
+                nombre_nuevo[j] = '\0';
+                for (i = 0; (cabecera->nombre)[i] != '\0'; i++)
+                {
+                    nombre_nuevo[j - 1] = (cabecera->nombre)[i];
+                    j--;
+                }
+
+                free(cabecera->nombre);
+                cabecera->nombre = nombre_nuevo;
+            }
+            cabecera = cabecera->siguiente;
+            n_nodo++;
+        }
+        printf("El antivirus ha corregido la lista de contactos\n");
+    }
+    system("pause");
 }
