@@ -13,11 +13,23 @@ typedef struct nodo {
 }nodo;
 typedef nodo *nodosig;
 
+/*Funcion para solicitar y validar la entrada de enteros*/
 int solicitar_entero();
+
+/*Funcion para generar una cola con elementos aleatorios en un rango*/
 nodosig cola_aleatoria();
+
+/*Funcion para ingresar elemento a una cola*/
 int insertar_cola(nodosig *cola, int dato);
+
+/*Funcion para generar una cola en base a la cola principal 
+de elementos aleatorios*/
 void sub_cola(nodosig cola, nodosig *cola_destino);
+
+/*Funcion para imprimir cola*/
 void imprimir_cola(nodosig cola);
+
+/*Funcion para vaciar cola al final del programa, evita fugas de memoria*/
 void vaciar_cola(nodosig *cola);
 
 int main() {
@@ -84,7 +96,8 @@ int insertar_cola(nodosig *cola, int dato){
     return 1;
 }
 
-
+/*Se filtran los enteros negativos y se insertan en 
+la cola de negativos*/
 void sub_cola(nodosig cola, nodosig *cola_destino){
     nodosig actual = cola   ;
     while(actual != NULL) {
@@ -95,6 +108,8 @@ void sub_cola(nodosig cola, nodosig *cola_destino){
     }
 }
 
+/*Se recorre la cola vaciando cada elemento de la cola
+hasta encontrarnos con el ultimo elemento*/
 void vaciar_cola(nodosig *cola) {
     nodosig temporal;
     while(*cola != NULL) {
@@ -104,7 +119,9 @@ void vaciar_cola(nodosig *cola) {
     }
 }
 
-
+/*Inicializacion de semilla para los numeros aleatorios.
+Se realizan las 100 iteraciones requeridas para la cola principal
+y se insertan en la cola principal*/
 nodosig cola_aleatoria() {
 
     nodosig cola = NULL;
@@ -118,6 +135,9 @@ nodosig cola_aleatoria() {
     return cola;
 }
 
+
+/*Recorremos los elementos de la cola mediante un ciclo, 
+a la par se imprimen los elementos de la cola*/
 void imprimir_cola(nodosig cola){
 
     if(cola == NULL){
@@ -133,6 +153,10 @@ void imprimir_cola(nodosig cola){
     printf("NULL\n");
 }
 
+
+/*En esta funcion, solicitamos que el usuario ingrese un numero entero.
+    Si no se puede leer de forma correcta, se repite el flujo hasta que
+    el usuario ingrese uno correcto*/
 int solicitar_entero()
 {
     char Aux[' '];
